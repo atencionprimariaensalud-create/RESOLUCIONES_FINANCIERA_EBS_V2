@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resoluciones: recurso, inicio y fin — E.S.E. Norte 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { --navy:#070D1A; --ink:#0F172A; --cyan:#22D3EE; --blue:#3B82F6; --violet:#8B5CF6; }
+  * { -webkit-font-smoothing: antialiased; }
+  body { font-family:'Manrope', system-ui, -apple-system, sans-serif; background:#F5F7FB;
+         background-image: radial-gradient(900px 500px at 12% -10%, rgba(34,211,238,.16), transparent 60%),
+                           radial-gradient(800px 480px at 88% -5%, rgba(139,92,246,.14), transparent 60%);
+         background-repeat:no-repeat; }
+  .glass { background:rgba(255,255,255,.85); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
+  .card { background:#fff; border:1px solid rgba(15,23,42,.06);
+          box-shadow:0 1px 2px rgba(16,24,40,.04), 0 12px 32px -18px rgba(16,24,40,.18);
+          transition:transform .18s ease, box-shadow .18s ease; }
+  .kpi { position:relative; overflow:hidden; }
+  .kpi::after { content:''; position:absolute; inset:auto -30px -40px auto; width:120px; height:120px; border-radius:999px;
+                background:radial-gradient(circle, rgba(34,211,238,.14), transparent 70%); }
+  .num { font-variant-numeric:tabular-nums; }
+  .badge { display:inline-flex; align-items:center; gap:.3rem; font-size:11px; font-weight:700; padding:2px 8px; border-radius:999px; }
+  .b-ok { background:#DCFCE7; color:#166534; }
+  .b-warn { background:#FEF3C7; color:#92400E; }
+  .b-info { background:#E0F2FE; color:#075985; }
+  .grad-text { background:linear-gradient(90deg,#22D3EE,#818CF8); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  table { border-collapse:separate; border-spacing:0; }
+  thead th { position:sticky; top:0; z-index:10; backdrop-filter:blur(8px); }
+  tbody tr:hover { background:#F4F7FE; }
+  tr.grp td { background:#0F172A; color:#fff; font-weight:800; font-size:12px; letter-spacing:.02em; }
+
+  /* ---------- Móvil (≤ 820 px) ---------- */
+  @media (max-width: 820px){
+    header h1{ font-size:1.6rem !important; line-height:1.2; }
+    .sticky-filter{ position:static !important; }
+    .mobile-cards{ font-size:13px; }
+    .mobile-cards thead{ display:none; }
+    .mobile-cards, .mobile-cards tbody, .mobile-cards tfoot, .mobile-cards tr{ display:block; width:100%; }
+    .mobile-cards tbody tr{ padding:.7rem 1rem; border-bottom:1px solid #EEF2F7; }
+    .mobile-cards tbody tr:last-child{ border-bottom:0; }
+    .mobile-cards tbody tr.grp{ background:#0F172A; color:#fff; border-radius:.9rem; margin:.55rem 0 .35rem; padding:.55rem .9rem; }
+    .mobile-cards tbody td{ display:flex; align-items:baseline; justify-content:space-between; gap:.9rem;
+                            padding:.18rem 0 !important; border:0 !important; text-align:right; }
+    .mobile-cards tbody td::before{ content:attr(data-l); flex:0 0 auto; font-size:9px; font-weight:800;
+                            letter-spacing:.06em; text-transform:uppercase; color:#94A3B8; text-align:left; }
+    .mobile-cards tbody tr.grp td{ display:block; text-align:left; }
+    .mobile-cards tbody tr.grp td::before{ content:''; }
+    .mobile-cards tbody td[colspan]:not([data-l]){ display:block; text-align:left; }
+    .mobile-cards tbody td[colspan]:not([data-l])::before{ content:''; }
+    .mobile-cards tbody td:empty{ display:none; }
+    .mobile-cards tfoot tr{ display:block; padding:.85rem 1rem; }
+    .mobile-cards tfoot td{ display:flex; justify-content:space-between; padding:.18rem 0 !important; border:0 !important; }
+    .mobile-cards tfoot td[colspan], .mobile-cards tfoot td:empty{ display:none; }
+    .mobile-cards tfoot td::before{ content:attr(data-l); font-size:9px; font-weight:800; letter-spacing:.06em;
+                            text-transform:uppercase; color:#67E8F9; }
+    .tbl-wrap{ overflow-x:visible !important; }
+  }
+
+  @media print { .no-print { display:none !important; } body { background:#fff; } .card { box-shadow:none; } }
+</style>
+</head>
+<body class="text-slate-800">
+
+<header class="relative overflow-hidden bg-[#070D1A] text-white">
+  <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-cyan-400/20 blur-3xl"></div>
+  <div class="absolute -top-32 right-0 w-[28rem] h-[28rem] rounded-full bg-violet-500/20 blur-3xl"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+      <div>
+        <div class="flex items-center gap-2 text-[11px] font-bold tracking-[0.22em] uppercase text-cyan-300">
+          <span class="w-2 h-2 rounded-full bg-cyan-300 animate-pulse"></span> E.S.E. Norte 3 · Equipos Básicos de Salud
+        </div>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold mt-3 leading-tight">Resoluciones: recurso, inicio y fin</h1>
+        <p class="text-slate-300 mt-2 text-sm md:text-base">Filtre por resolución y vea <span class="text-white font-semibold">cuánto se asignó, cuándo inició y cuándo finalizó</span></p>
+      </div>
+      <div class="flex flex-wrap items-center justify-between gap-3 w-full lg:w-auto">
+        <div class="text-right">
+          <p class="text-2xl sm:text-3xl md:text-4xl font-extrabold grad-text num" id="hdrTotal">—</p>
+          <p class="text-[11px] text-slate-400 uppercase tracking-widest">recurso filtrado</p>
+        </div>
+        <button onclick="window.print()" class="no-print rounded-2xl px-4 py-3 font-bold text-white bg-white/10 hover:bg-white/20 border border-white/15 transition text-sm">Imprimir / PDF</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="sticky-filter sticky top-0 z-40 no-print">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-4">
+    <div class="glass rounded-2xl border border-slate-200/70 shadow-sm px-4 py-3 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-end">
+      <div class="col-span-2 sm:col-auto">
+        <label class="block text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">Resolución</label>
+        <select id="fRes" class="border border-slate-200 rounded-xl px-3 py-2 text-sm bg-white w-full min-w-0 sm:w-auto sm:min-w-[280px] focus:ring-2 focus:ring-cyan-400 outline-none"></select>
+      </div>
+      <div>
+        <label class="block text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">Municipio</label>
+        <select id="fMun" class="border border-slate-200 rounded-xl px-3 py-2 text-sm bg-white w-full min-w-0 sm:w-auto sm:min-w-[170px] focus:ring-2 focus:ring-cyan-400 outline-none"></select>
+      </div>
+      <div>
+        <label class="block text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">Estado</label>
+        <select id="fEst" class="border border-slate-200 rounded-xl px-3 py-2 text-sm bg-white w-full min-w-0 sm:w-auto sm:min-w-[190px] focus:ring-2 focus:ring-cyan-400 outline-none">
+          <option value="ALL">Todos</option>
+          <option value="Finalizada">Finalizada</option>
+          <option value="En ejecución">En ejecución</option>
+          <option value="En espera de recurso">En espera de recurso</option>
+          <option value="CON_REINTEGRO">Finalizada y con reintegro</option>
+        </select>
+      </div>
+      <div class="col-span-2 sm:col-auto">
+        <label class="block text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">Buscar</label>
+        <input id="fQ" placeholder="Municipio, tipo de operación…" class="border border-slate-200 rounded-xl px-3 py-2 text-sm bg-white w-full min-w-0 sm:w-auto sm:min-w-[210px] focus:ring-2 focus:ring-cyan-400 outline-none">
+      </div>
+      <label class="flex items-center gap-2 text-sm font-medium text-slate-600 col-span-1 sm:pb-2 sm:ml-1">
+        <input type="checkbox" id="fAmp" class="w-4 h-4 accent-amber-500 rounded"> Solo ampliaciones
+      </label>
+      <div class="col-span-2 sm:col-auto sm:ml-auto flex items-center gap-2">
+        <button id="btnReset" class="flex-1 sm:flex-none px-3 py-2 text-sm font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 transition">Limpiar</button>
+        <button id="btnCsv" class="flex-1 sm:flex-none px-3 py-2 text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 transition">Exportar CSV</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-7 space-y-6 sm:space-y-7">
+
+  <!-- KPIs -->
+  <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+    <div class="card kpi rounded-3xl p-4 sm:p-5">
+      <p class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Recurso asignado</p>
+      <p class="text-xl sm:text-2xl font-extrabold text-slate-900 num mt-2" id="kRec">—</p>
+      <p class="text-xs text-slate-500 mt-2" id="kRecSub">—</p>
+    </div>
+    <div class="card kpi rounded-3xl p-4 sm:p-5">
+      <p class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Resoluciones</p>
+      <p class="text-xl sm:text-2xl font-extrabold text-cyan-700 num mt-2" id="kNRes">—</p>
+      <p class="text-xs text-slate-500 mt-2" id="kNResSub">—</p>
+    </div>
+    <div class="card kpi rounded-3xl p-4 sm:p-5">
+      <p class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Equipos</p>
+      <p class="text-xl sm:text-2xl font-extrabold text-violet-700 num mt-2" id="kEq">—</p>
+      <p class="text-xs text-slate-500 mt-2">suma de la selección</p>
+    </div>
+    <div class="card kpi rounded-3xl p-4 sm:p-5">
+      <p class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Primer inicio</p>
+      <p class="text-base sm:text-lg font-extrabold text-slate-900 num mt-2" id="kIni">—</p>
+      <p class="text-xs text-slate-500 mt-2" id="kIniSub">—</p>
+    </div>
+    <div class="card kpi rounded-3xl p-4 sm:p-5">
+      <p class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Último fin</p>
+      <p class="text-base sm:text-lg font-extrabold text-slate-900 num mt-2" id="kFin">—</p>
+      <p class="text-xs text-slate-500 mt-2" id="kFinSub">—</p>
+    </div>
+  </section>
+
+  <!-- AMPLIACIONES -->
+  <section class="card rounded-3xl overflow-hidden">
+    <div class="px-6 py-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2">
+      <div>
+        <h2 class="font-extrabold text-slate-900 text-lg">Ampliaciones: cuánto se asignó por cada resolución</h2>
+        <p class="text-xs text-slate-400 mt-1">Las dos ampliaciones unificaron su recurso y se ejecutaron juntas</p>
+      </div>
+      <span class="badge b-warn">Suma verificada</span>
+    </div>
+    <div class="p-5 bg-amber-50/60">
+      <div class="rounded-2xl bg-white border border-amber-200 p-5 md:max-w-2xl">
+        <p class="text-[10px] font-extrabold uppercase tracking-wider text-amber-600">Ampliación 1 + Ampliación 2</p>
+        <p class="text-3xl font-extrabold text-amber-800 num mt-1">$ 4.798.693.800</p>
+        <div class="mt-3 space-y-1 text-[12px] text-slate-600">
+          <p class="flex flex-wrap justify-between gap-2 border-t border-amber-100 pt-2">
+            <span>Ampliación 1 · Resolución 1499 de 2024 (ajustada con la 2539)</span>
+            <b class="num text-slate-900">$ 2.224.359.000</b></p>
+          <p class="flex flex-wrap justify-between gap-2 border-t border-amber-100 pt-2">
+            <span>Ampliación 2 · Resolución 1978 de 2024</span>
+            <b class="num text-slate-900">$ 2.574.334.800</b></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLUJO: GIROS Y REINTEGROS -->
+  <section class="card rounded-3xl overflow-hidden">
+    <div class="px-6 py-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2">
+      <div>
+        <h2 class="font-extrabold text-slate-900 text-lg">Giros, ejecución y reintegros</h2>
+        <p class="text-xs text-slate-400 mt-1">Fecha de asignación, fecha de giro, valor girado, ejecutado y lo reintegrado · <span class="text-slate-500">resumen general de las 7 resoluciones (no cambia con los filtros)</span></p>
+      </div>
+      <span class="badge b-warn" id="chipReint">—</span>
+    </div>
+    <div class="overflow-x-auto tbl-wrap">
+      <table class="w-full text-sm mobile-cards">
+        <thead class="bg-slate-50/90 text-slate-500 text-[10px] uppercase tracking-wider">
+          <tr>
+            <th class="text-left px-5 py-3">Resolución</th>
+            <th class="text-right px-3 py-3">Asignado</th>
+            <th class="text-center px-3 py-3">Asignación</th>
+            <th class="text-center px-3 py-3">Giro</th>
+            <th class="text-right px-3 py-3">Girado</th>
+            <th class="text-right px-3 py-3">Ejecutado</th>
+            <th class="text-right px-3 py-3">Saldo</th>
+            <th class="text-right px-3 py-3">Reintegro</th>
+            <th class="text-center px-3 py-3">Fecha de CONFIS</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100" id="tblFlujo"></tbody>
+        <tfoot class="bg-[#070D1A] text-white font-bold" id="footFlujo"></tfoot>
+      </table>
+    </div>
+    <p class="px-6 py-4 text-[11px] text-slate-400 border-t border-slate-100" id="notaFlujo"></p>
+  </section>
+
+  <!-- DETALLE DE LA RESOLUCIÓN SELECCIONADA -->
+  <section id="ficha" class="hidden"></section>
+
+  <!-- AVISO FILTRO REINTEGRO -->
+  <section id="bannerReint" class="hidden rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-900">
+    <p class="font-extrabold mb-1">Resoluciones finalizadas con reintegro</p>
+    <p id="bannerReintTxt" class="text-amber-800"></p>
+  </section>
+
+  <!-- TABLA -->
+  <section class="card rounded-3xl overflow-hidden">
+    <div class="px-6 py-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2">
+      <div>
+        <h2 class="font-extrabold text-slate-900" id="tituloTabla">Detalle por resolución y municipio</h2>
+        <p class="text-xs text-slate-400 mt-1" id="subTabla"></p>
+      </div>
+      <span class="badge b-info" id="chipFiltro">Sin filtros</span>
+    </div>
+    <div class="overflow-x-auto tbl-wrap">
+      <table class="w-full text-sm mobile-cards">
+        <thead class="bg-slate-50/90 text-slate-500 text-[10px] uppercase tracking-wider">
+          <tr>
+            <th class="text-left px-5 py-3">Resolución</th>
+            <th class="text-left px-3 py-3">Municipio</th>
+            <th class="text-left px-3 py-3">Tipo de operación</th>
+            <th class="text-right px-3 py-3">Equipos</th>
+            <th class="text-right px-3 py-3">Meses</th>
+            <th class="text-right px-3 py-3">Recurso asignado</th>
+            <th class="text-center px-3 py-3">Expedición</th>
+            <th class="text-center px-3 py-3">Inicio</th>
+            <th class="text-center px-3 py-3">Fin</th>
+            <th class="text-left px-3 py-3">Estado</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100" id="tbl"></tbody>
+        <tfoot class="bg-[#070D1A] text-white font-bold" id="foot"></tfoot>
+      </table>
+    </div>
+    <p class="px-6 py-4 text-[11px] text-slate-400 border-t border-slate-100">
+      Recurso: columna H «RECURSO ASIGNADO». Inicio y fin: columnas I y J «FECHA INICIO / FECHA FINAL» del Excel de resoluciones.
+      La fecha de expedición se toma del nombre de la resolución (día/mes/año). En la <b>Resolución 436 de 2026</b> solo
+      Puerto Tejada está en ejecución; Padilla y Villa Rica están en espera de la asignación del recurso.
+    </p>
+  </section>
+
+  <p class="text-[11px] text-slate-400 px-1">E.S.E. Norte 3 · Fuente: RESOLUCIONES_NORTE_3_ACT_25_08_26.xlsx · Corte 08-oct-2026</p>
+</main>
+
+<script>
+/* tipo: P=resolución pasada, C=continuidad, A=ampliación, CA=continuidad+ampliación, E=programa especial */
+const RES = [
+ {id:'2026-2023', corto:'2026/2023', tipo:'Resolución pasada', grupo:'P', res:'Resolución 2026 de 2023',
+  exp:null, expTxt:'2023 (sin fecha en el nombre)', inicio:'2024-04-17', fin:'2024-07-16', estado:'Finalizada', recurso:1117385520,
+  nota:'Primera operación de los equipos básicos en los tres municipios, en zona rural.',
+  filas:[['PUERTO TEJADA','RURAL',3,3,558692760],['VILLA RICA','RURAL',1,3,186230920],['PADILLA','RURAL',2,3,372461840]]},
+
+ {id:'1184-2024', corto:'1184/2024', tipo:'Continuidad', grupo:'C', res:'Resolución 1184 de 2024 del 04 de julio',
+  exp:'2024-07-04', inicio:'2024-11-27', fin:'2025-12-31', estado:'Finalizada', recurso:1442158800,
+  nota:'Continuidad de la operación en zona rural de Puerto Tejada, Villa Rica y Padilla.',
+  filas:[['PADILLA','RURAL',2,4,480719600],['PUERTO TEJADA','RURAL',3,4,721079400],['VILLA RICA','RURAL',1,4,240359800]]},
+
+ {id:'1499-2024', corto:'1499/2024', tipo:'Ampliación 1', grupo:'A', res:'Resolución 1499 de 2024 del 26 de agosto, ajustada con la Resolución 2539 de 2024 del 13 de diciembre',
+  exp:'2024-08-26', inicio:'2025-06-03', fin:'2025-12-31', estado:'Finalizada', recurso:2224359000,
+  nota:'Ampliación en área rural y urbana de los tres municipios. Ajustada por la Resolución 2539 de 2024 (13 dic 2024).',
+  filas:[['PADILLA','RURAL',2,3,293607900],['PADILLA','URBANO',2,3,174987900],['PUERTO TEJADA','RURAL',4,3,587215800],
+         ['PUERTO TEJADA','URBANO',8,3,699951600],['VILLA RICA','RURAL',2,3,293607900],['VILLA RICA','URBANO',2,3,174987900]]},
+
+ {id:'1978-2024', corto:'1978/2024', tipo:'Ampliación 2', grupo:'A', res:'Resolución 1978 de 2024 del 11 de octubre',
+  exp:'2024-10-11', inicio:'2025-06-03', fin:'2025-12-31', estado:'Finalizada', recurso:2574334800,
+  nota:'Segunda ampliación, ejecutada en paralelo con la 1499 de 2024.',
+  filas:[['PUERTO TEJADA','RURAL',4,3,587215800],['PUERTO TEJADA','URBANO',10,3,874939500],
+         ['VILLA RICA','RURAL',4,3,587215800],['VILLA RICA','URBANO',6,3,524963700]]},
+
+ {id:'1010-2025', corto:'1010/2025', tipo:'Continuidad + ampliación', grupo:'CA', res:'Resolución 1010 de 2025 del 23 de mayo',
+  exp:'2025-05-23', inicio:'2026-02-02', fin:'2026-07-31', estado:'Finalizada', recurso:2684982500,
+  nota:'Continuidad y ampliación en los tres municipios, incluida población privada de la libertad.',
+  filas:[['PADILLA','CONTINUIDAD RURAL',2,4,449480000],['PADILLA','AMPLIACIÓN URBANA',2,4,181650000],
+         ['PADILLA','AMPLIACIÓN RURAL',2,4,368080000],['PUERTO TEJADA','CONTINUIDAD RURAL',3,1,168555000],
+         ['PUERTO TEJADA','AMPLIACIÓN RURAL',1,1,46010000],['PUERTO TEJADA','AMPLIACIÓN URBANA',8,2,363300000],
+         ['PUERTO TEJADA','AMPLIACIÓN URBANA',1,2,58275000],['PUERTO TEJADA','AMPLIACIÓN URBANA + PPL',1,2,58275000],
+         ['VILLA RICA','CONTINUIDAD RURAL',1,3,168555000],['VILLA RICA','AMPLIACIÓN RURAL',3,3,414090000],
+         ['VILLA RICA','AMPLIACIÓN URBANA',6,3,408712500]]},
+
+ {id:'0436-2026', corto:'436/2026', tipo:'Continuidad de la 1010', grupo:'C', res:'Resolución 436 de 2026 del 10 de marzo de 2026',
+  exp:'2026-03-10', inicio:'2026-07-02', fin:'2026-12-28', estado:'En ejecución', recurso:5060723000,
+  nota:'Resolución vigente. Solo Puerto Tejada está en ejecución; Padilla y Villa Rica están a la espera de la asignación del recurso.',
+  filas:[['PADILLA','RURAL',4,2,521892000,'En espera de recurso'],['PADILLA','URBANO',2,2,158146000,'En espera de recurso'],
+         ['PUERTO TEJADA','RURAL',4,5,1304730000,'En ejecución'],['PUERTO TEJADA','URBANO',10,4,1581460000,'En ejecución'],
+         ['VILLA RICA','RURAL',4,3,782838000,'En espera de recurso'],['VILLA RICA','URBANO',6,3,711657000,'En espera de recurso']]},
+
+ {id:'1498-2024', corto:'1498/2024', tipo:'Programa especial', grupo:'E', res:'Jóvenes en Paz: Resolución 1498 de 2024 del 26 de agosto',
+  exp:'2024-08-26', inicio:'2025-04-10', fin:'2025-09-10', estado:'Finalizada', recurso:78500000,
+  nota:'Operación urbana en Puerto Tejada, independiente de las resoluciones PCP. Fechas tomadas del cronograma del tablero (en el Excel están en blanco).',
+  filas:[['PUERTO TEJADA','URBANO',1,5,78500000]]},
+];
+
+const TOTAL_GENERAL = RES.reduce((a,r)=>a+r.recurso,0);
+const money = n => '$ ' + new Intl.NumberFormat('es-CO').format(Math.round(n));
+const num = n => new Intl.NumberFormat('es-CO').format(n);
+const pct = (n,d) => d ? (n/d*100).toFixed(2).replace('.',',') + ' %' : '—';
+const fdate = s => {
+  if(!s) return '—';
+  const [y,m,d] = s.split('-');
+  const M = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return `${d} ${M[+m-1]} ${y}`;
+};
+const days = (a,b) => (a && b) ? Math.round((new Date(b)-new Date(a))/86400000) : null;
+const badge = e => e === 'En ejecución'
+  ? '<span class="badge b-info">● En ejecución</span>'
+  : (e === 'En espera de recurso'
+     ? '<span class="badge b-warn">⏳ En espera de recurso</span>'
+     : '<span class="badge b-ok">✓ Finalizada</span>');
+const estadoFila = (r,f) => f[5] || r.estado;
+function porEstado(r){
+  const map = {};
+  r.filas.forEach(f=>{
+    const e = estadoFila(r,f);
+    if(!map[e]) map[e] = {total:0, muns:{}};
+    map[e].total += f[4];
+    map[e].muns[f[0]] = (map[e].muns[f[0]] || 0) + f[4];
+  });
+  return Object.keys(map).map(e=>({estado:e, total:map[e].total, muns:map[e].muns}));
+}
+function resumenEstados(r){
+  const pe = porEstado(r);
+  return pe.length === 1 ? pe[0].estado : pe.map(x=>x.estado==='En espera de recurso'
+      ? x.muns && Object.keys(x.muns).length + ' en espera'
+      : Object.keys(x.muns).length + ' en ejecución').join(' · ');
+}
+
+const state = {res:'ALL', mun:'ALL', est:'ALL', q:'', amp:false};
+
+/* Flujo del recurso por resolución (Excel VERIFICACIÓN APP - EBS - JÓVENES EN PAZ) */
+const FLUJO = {
+  '2026-2023': {asig:'2023-12-01', confis:'2024-03-14', acuerdo:'N°02-2024', giro:'2024-01-22', girado:1117385520, ejecutado:1117385520, saldo:0, reint:0, freint:null, nota:''},
+  '1184-2024': {asig:'2024-07-04', confis:'2024-11-18', acuerdo:'N°09-2024', giro:'2024-09-30', girado:1442158800, ejecutado:1438371535, saldo:3787265, reint:3787265, freint:'2026-05-07', reints:[{m:3787265, f:'2026-05-07', r:'062 de 2026'}], nota:'Reintegro de $ 3.787.265 (Padilla), por el saldo no ejecutado, del 07 de mayo de 2026 bajo la Resolución 062 de 2026.'},
+  '1499-2024': {asig:'2024-12-13', confis:'2026-05-22', acuerdo:'N°04-2025', giro:'2025-04-25', girado:2224359000, ejecutado:2224167425, saldo:191575, reint:191575, freint:'2026-01-27', reints:[{m:191575, f:'2026-01-27', r:'013 de 2026'}], nota:'Reintegro de $ 191.575 (Padilla) el 27 de enero de 2026 bajo la Resolución 013 de 2026.'},
+  '1978-2024': {asig:'2024-12-13', confis:'2026-05-22', acuerdo:'N°04-2025', giro:'2025-04-25', girado:2574334800, ejecutado:2343634856, saldo:230699944, reint:230699944, freint:null, reints:[{m:10708600, f:'2026-01-27', r:'012 de 2026'}, {m:219991344, f:'2026-04-27', r:'054 de 2026'}], nota:'Reintegro total de $ 230.699.944 en dos actos administrativos: $ 10.708.600 del 27 de enero de 2026 (Resolución 012 de 2026) y $ 219.991.344 del 27 de abril de 2026 (Resolución 054 de 2026).'},
+  '1010-2025': {asig:'2025-05-23', confis:'2025-10-31', acuerdo:'N°13-2025', giro:'2025-09-25', girado:2684982500, ejecutado:2684982500, saldo:0, reint:0, freint:null, nota:'Ejecutada al 100 % del recurso asignado (el Excel antiguo la mostraba aún en ejecución).'},
+  '0436-2026': {asig:'2026-03-10', confis:'2026-06-26', acuerdo:'N°05-2026', giro:'2026-06-24', girado:2886190000, ejecutado:798098080, ejecutadoSep:668493080, ejecutadoProy:1466591160, saldo:2088091920, reint:0, freint:null, giroParcial:'Puerto Tejada', nota:'Giro parcial únicamente de Puerto Tejada ($ 2.886.190.000) el 24 de junio de 2026. Ejecución registrada (julio y agosto, 66 contratos): $ 798.098.080. Septiembre estimado al mismo ritmo de agosto: $ 668.493.080. Padilla y Villa Rica están a la espera de la asignación del recurso.'},
+  '1498-2024': {asig:'2025-03-18', confis:'2025-03-18', acuerdo:'N°02-2025', giro:'2024-10-30', girado:78500000, ejecutado:78500000, saldo:0, reint:0, freint:null, nota:'El giro aparece antes de la fecha de asignación: dato atípico del Excel.'},
+};
+
+/* ---------- reintegros (puede haber varios por resolución) ---------- */
+const reintsDe = f => (f && f.reints && f.reints.length) ? f.reints : ((f && f.reint) ? [{ m: f.reint, f: f.freint || null, r: f.resReint || null }] : []);
+const reintTotal = f => reintsDe(f).reduce((a, x) => a + (Number(x.m) || 0), 0);
+function reintCelda(f){
+  const ps = reintsDe(f);
+  if (!ps.length) return '<span class="text-slate-400">No hubo reintegro</span>';
+  let out = ps.map(x => '<div class="flex items-baseline justify-end gap-2 flex-wrap">' +
+      '<span class="num font-bold text-amber-700">' + money(x.m) + '</span>' +
+      '<span class="text-[10px] ' + (x.f ? 'text-emerald-700' : 'text-slate-400') + '">' +
+      (x.f ? fdate(x.f) : 'sin fecha') + (x.r ? ' · Res. ' + x.r : '') + '</span></div>').join('');
+  if (ps.length > 1) out += '<div class="mt-1 pt-1 border-t border-amber-200 flex items-baseline justify-end gap-2">' +
+      '<span class="text-[9px] font-extrabold text-amber-700 tracking-wider">TOTAL</span>' +
+      '<span class="num font-extrabold text-amber-800">' + money(reintTotal(f)) + '</span></div>';
+  return out;
+}
+function fechaCelda(f){
+  const ps = reintsDe(f);
+  if (!ps.length) return '<span class="text-slate-400">—</span>';
+  if (ps.length > 1) return '<span class="text-[10px] text-slate-500">ver detalle</span>';
+  return ps[0].f ? fdate(ps[0].f) : '<span class="text-amber-700 text-[11px]">no registrada</span>';
+}
+function reintTxtCorto(f){
+  const ps = reintsDe(f);
+  if (!ps.length) return 'No hubo reintegro';
+  return money(reintTotal(f)) + (ps.length > 1 ? ' (' + ps.length + ' reintegros)' : (ps[0].f ? ' · ' + fdate(ps[0].f) : ''));
+}
+
+/* ---------- selects ---------- */
+const fRes = document.getElementById('fRes'), fMun = document.getElementById('fMun');
+fRes.innerHTML = '<option value="ALL">Todas las resoluciones (7)</option>' +
+  RES.map(r=>`<option value="${r.id}">${r.corto} — ${r.tipo}</option>`).join('');
+const muns = [...new Set(RES.flatMap(r=>r.filas.map(f=>f[0])))].sort();
+fMun.innerHTML = '<option value="ALL">Todos los municipios</option>' +
+  muns.map(m=>`<option value="${m}">${m}</option>`).join('');
+
+fRes.onchange = e => { state.res = e.target.value; render(); };
+fMun.onchange = e => { state.mun = e.target.value; render(); };
+document.getElementById('fEst').onchange = e => { state.est = e.target.value; render(); };
+document.getElementById('fAmp').onchange = e => { state.amp = e.target.checked; render(); };
+document.getElementById('fQ').oninput = e => { state.q = e.target.value.toLowerCase().trim(); render(); };
+document.getElementById('btnReset').onclick = () => {
+  state.res='ALL'; state.mun='ALL'; state.est='ALL'; state.q=''; state.amp=false;
+  fRes.value='ALL'; fMun.value='ALL'; document.getElementById('fEst').value='ALL';
+  document.getElementById('fAmp').checked=false; document.getElementById('fQ').value='';
+  render();
+};
+
+/* ---------- datos filtrados ---------- */
+function seleccion(){
+  return RES.map(r=>{
+    if(state.res !== 'ALL' && r.id !== state.res) return null;
+    if(state.amp && r.grupo !== 'A' && r.grupo !== 'CA') return null;
+    const conReint = state.est === 'CON_REINTEGRO';
+    if(conReint){
+      const fl = FLUJO[r.id];
+      const finalizada = r.filas.every(f2=>estadoFila(r,f2)==='Finalizada');
+      if(!finalizada || !fl || !(fl.reint > 0)) return null;
+    }
+    let filas = r.filas.filter(f=>{
+      if(!conReint && state.est !== 'ALL' && estadoFila(r,f) !== state.est) return false;
+      if(state.mun !== 'ALL' && f[0] !== state.mun) return false;
+      if(state.q){
+        const txt = (f[0]+' '+f[1]).toLowerCase();
+        const txt2 = (r.res+' '+r.corto+' '+r.tipo).toLowerCase();
+        if(!txt.includes(state.q) && !txt2.includes(state.q)) return false;
+      }
+      return true;
+    });
+    if(!filas.length) return null;
+    const rec = filas.reduce((a,f)=>a+f[4],0);
+    const eq  = filas.reduce((a,f)=>a+f[2],0);
+    return {...r, filas, recFiltrado:rec, eqFiltrado:eq};
+  }).filter(Boolean);
+}
+
+/* ---------- render ---------- */
+function render(){
+  const sel = seleccion();
+  const total = sel.reduce((a,r)=>a+r.recFiltrado,0);
+  const eq = sel.reduce((a,r)=>a+r.eqFiltrado,0);
+  const ini = sel.map(r=>r.inicio).filter(Boolean).sort()[0];
+  const fin = sel.map(r=>r.fin).filter(Boolean).sort().slice(-1)[0];
+
+  document.getElementById('hdrTotal').textContent = money(total);
+  document.getElementById('kRec').textContent = money(total);
+  document.getElementById('kRecSub').textContent = pct(total, TOTAL_GENERAL) + ' del total general (' + money(TOTAL_GENERAL) + ')';
+  document.getElementById('kNRes').textContent = sel.length;
+  const conEjec = sel.filter(x=>x.filas.some(f=>estadoFila(x,f)==='En ejecución')).length;
+  const enEspera = sel.filter(x=>x.filas.some(f=>estadoFila(x,f)==='En espera de recurso')).length;
+  document.getElementById('kNResSub').textContent = state.est === 'CON_REINTEGRO'
+    ? (sel.length + (sel.length === 1 ? ' con reintegro registrado' : ' con reintegro registrado'))
+    : (conEjec + ' con ejecución activa' + (enEspera ? ' · ' + enEspera + ' con municipios en espera' : ''));
+  document.getElementById('kEq').textContent = num(eq);
+  document.getElementById('kIni').textContent = ini ? fdate(ini) : '—';
+  document.getElementById('kIniSub').textContent = ini ? 'fecha de inicio más antigua' : 'sin datos';
+  document.getElementById('kFin').textContent = fin ? fdate(fin) : '—';
+  document.getElementById('kFinSub').textContent = fin ? 'fecha de finalización más lejana' : 'sin datos';
+
+  const chips = [];
+  if(state.res!=='ALL') chips.push(RES.find(r=>r.id===state.res).corto);
+  if(state.mun!=='ALL') chips.push(state.mun);
+  if(state.est!=='ALL') chips.push(state.est === 'CON_REINTEGRO' ? 'finalizada y con reintegro' : state.est);
+  if(state.amp) chips.push('solo ampliaciones');
+  if(state.q) chips.push('“'+state.q+'”');
+  document.getElementById('chipFiltro').textContent = chips.length ? chips.join(' · ') : 'Sin filtros';
+  document.getElementById('subTabla').textContent =
+    sel.length + (sel.length===1?' resolución · ':' resoluciones · ') +
+    sel.reduce((a,r)=>a+r.filas.length,0) + (sel.reduce((a,r)=>a+r.filas.length,0)===1?' fila municipio·operación':' filas municipio·operación');
+
+  /* aviso cuando se filtra por reintegro */
+  const bn = document.getElementById('bannerReint');
+  if(state.est === 'CON_REINTEGRO'){
+    const tot = sel.reduce((a,r)=>a+(FLUJO[r.id].reint||0),0);
+    document.getElementById('bannerReintTxt').innerHTML = sel.length
+      ? `${sel.length === 1 ? '1 resolución finalizada' : sel.length + ' resoluciones finalizadas'} con reintegro · total reintegrado <b>${money(tot)}</b>: ` +
+        sel.map(r=>`<b>${r.corto}</b> (${reintTxtCorto(FLUJO[r.id])})`).join(' · ')
+      : 'Ninguna resolución cumple el criterio con los filtros actuales.';
+    bn.classList.remove('hidden');
+  } else {
+    bn.classList.add('hidden');
+  }
+
+  /* tabla agrupada */
+  let html = '', acum = 0;
+  sel.forEach(r=>{
+    acum += r.recFiltrado;
+    html += `<tr class="grp"><td colspan="10" class="px-5 py-2">
+        ${r.corto} · ${r.tipo} · ${resumenEstados(r)}${r.inicio ? ' · '+fdate(r.inicio)+' → '+fdate(r.fin) : ''}
+      </td></tr>`;
+    r.filas.forEach(f=>{
+      html += `<tr>
+        <td data-l="Resolución" class="px-5 py-2.5 text-[11px] text-slate-400 num">${r.corto}</td>
+        <td data-l="Municipio" class="px-3 py-2.5 font-semibold text-slate-800">${f[0]}</td>
+        <td data-l="Tipo de operación" class="px-3 py-2.5 text-slate-600 text-xs">${f[1]}</td>
+        <td data-l="Equipos" class="px-3 py-2.5 text-right num text-slate-600">${f[2]}</td>
+        <td data-l="Meses" class="px-3 py-2.5 text-right num text-slate-600">${f[3]}</td>
+        <td data-l="Recurso asignado" class="px-3 py-2.5 text-right num font-bold text-slate-900">${money(f[4])}</td>
+        <td data-l="Expedición" class="px-3 py-2.5 text-center text-xs text-slate-500">${r.exp ? fdate(r.exp) : (r.expTxt||'—')}</td>
+        <td data-l="Inicio" class="px-3 py-2.5 text-center text-xs text-slate-500">${fdate(r.inicio)}</td>
+        <td data-l="Fin" class="px-3 py-2.5 text-center text-xs text-slate-500">${fdate(r.fin)}</td>
+        <td data-l="Estado" class="px-3 py-2.5">${badge(estadoFila(r,f))}</td>
+      </tr>`;
+    });
+    html += `<tr class="bg-slate-50/70 font-bold">
+      <td class="px-5 py-2 text-[11px] text-slate-500" colspan="3">Subtotal ${r.corto}</td>
+      <td data-l="Equipos" class="px-3 py-2 text-right num text-slate-700">${r.eqFiltrado}</td>
+      <td class="px-3 py-2"></td>
+      <td data-l="Recurso" class="px-3 py-2 text-right num text-slate-900">${money(r.recFiltrado)}</td>
+      <td colspan="4"></td></tr>`;
+  });
+  document.getElementById('tbl').innerHTML = html || '<tr><td colspan="10" class="px-5 py-10 text-center text-slate-400">Sin resultados con esos filtros.</td></tr>';
+
+  document.getElementById('foot').innerHTML = `<tr>
+    <td class="px-5 py-4" colspan="3">TOTAL ${sel.length} resolución(es)</td>
+    <td data-l="Equipos" class="px-3 py-4 text-right num">${num(eq)}</td>
+    <td class="px-3 py-4"></td>
+    <td data-l="Recurso" class="px-3 py-4 text-right num">${money(total)}</td>
+    <td colspan="4" class="px-3 py-4"></td>
+  </tr>`;
+
+  /* ficha */
+  const ficha = document.getElementById('ficha');
+  if(state.res === 'ALL'){
+    ficha.classList.add('hidden'); ficha.innerHTML = '';
+  } else {
+    const r = sel[0];
+    ficha.classList.remove('hidden');
+    if(!r){ ficha.innerHTML = ''; return; }
+    const d = days(r.inicio, r.fin);
+    ficha.innerHTML = `
+      <div class="card rounded-3xl p-6 md:p-8">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p class="text-[10px] uppercase tracking-wider font-extrabold text-cyan-600">${r.corto} · ${r.tipo}</p>
+            <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 mt-1 max-w-3xl leading-snug">${r.res}</h2>
+            <p class="text-xs text-slate-400 mt-2">${r.nota || ''}</p>
+          </div>
+          <div class="flex flex-wrap gap-1.5">${porEstado(r).map(x=>badge(x.estado)).join('')}</div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5">
+          <div class="rounded-2xl p-4" style="background:linear-gradient(135deg,#0F172A,#164E63)">
+            <p class="text-[9px] uppercase tracking-wider font-extrabold text-cyan-300">Recurso asignado</p>
+            <p class="text-xl font-extrabold text-white num mt-1">${money(r.recurso)}</p>
+            <p class="text-[10px] text-slate-300 mt-1">${pct(r.recurso, TOTAL_GENERAL)} del total general</p>
+          </div>
+          <div class="rounded-2xl bg-slate-50 border border-slate-100 p-4">
+            <p class="text-[9px] uppercase tracking-wider font-extrabold text-slate-400">Fecha de expedición</p>
+            <p class="text-base font-extrabold text-slate-900 num mt-1">${r.exp ? fdate(r.exp) : (r.expTxt||'—')}</p>
+            <p class="text-[10px] text-slate-400 mt-1">según nombre de la resolución</p>
+          </div>
+          <div class="rounded-2xl bg-slate-50 border border-slate-100 p-4">
+            <p class="text-[9px] uppercase tracking-wider font-extrabold text-slate-400">Inicio de ejecución</p>
+            <p class="text-base font-extrabold text-slate-900 num mt-1">${fdate(r.inicio)}</p>
+            <p class="text-[10px] text-slate-400 mt-1">${d!==null ? d+' días' : ''}</p>
+          </div>
+          <div class="rounded-2xl bg-slate-50 border border-slate-100 p-4">
+            <p class="text-[9px] uppercase tracking-wider font-extrabold text-slate-400">Finalización</p>
+            <p class="text-base font-extrabold text-slate-900 num mt-1">${fdate(r.fin)}</p>
+            <p class="text-[10px] text-slate-400 mt-1">${r.estado === 'En ejecución' ? 'fin programado' : 'fin ejecutado'}</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+          <div class="rounded-2xl bg-slate-50 border border-slate-100 p-4">
+            <p class="text-[9px] uppercase tracking-wider font-extrabold text-slate-400">Equipos</p>
+            <p class="text-base font-extrabold text-slate-900 num mt-1">${r.eqFiltrado}</p>
+          </div>
+          <div class="rounded-2xl bg-slate-50 border border-slate-100 p-4">
+            <p class="text-[9px] uppercase tracking-wider font-extrabold text-slate-400">Municipios</p>
+            <p class="text-base font-extrabold text-slate-900 mt-1">${[...new Set(r.filas.map(f=>f[0]))].length}</p>
+          </div>
+          <div class="rounded-2xl bg-slate-50 border border-slate-100 p-4">
+            <p class="text-[9px] uppercase tracking-wider font-extrabold text-slate-400">Filas operación</p>
+            <p class="text-base font-extrabold text-slate-900 num mt-1">${r.filas.length}</p>
+          </div>
+          <div class="rounded-2xl bg-slate-50 border border-slate-100 p-4">
+            <p class="text-[9px] uppercase tracking-wider font-extrabold text-slate-400">Meses de operación</p>
+            <p class="text-base font-extrabold text-slate-900 num mt-1">${[...new Set(r.filas.map(f=>f[3]))].sort((a,b)=>a-b).join(' · ')}</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+          <div class="rounded-2xl bg-slate-50 border border-slate-100 p-4">
+            <p class="text-[9px] uppercase tracking-wider font-extrabold text-slate-400">Fecha de asignación</p>
+            <p class="text-base font-extrabold text-slate-900 num mt-1">${FLUJO[r.id].asig ? fdate(FLUJO[r.id].asig) : '—'}</p>
+          </div>
+          <div class="rounded-2xl bg-slate-50 border border-slate-100 p-4">
+            <p class="text-[9px] uppercase tracking-wider font-extrabold text-slate-400">Fecha de giro</p>
+            <p class="text-base font-extrabold text-slate-900 num mt-1">${FLUJO[r.id].giro ? fdate(FLUJO[r.id].giro) : 'Sin fecha'}</p>
+          </div>
+          <div class="rounded-2xl bg-slate-50 border border-slate-100 p-4">
+            <p class="text-[9px] uppercase tracking-wider font-extrabold text-slate-400">Valor girado</p>
+            <p class="text-base font-extrabold text-slate-900 num mt-1">${FLUJO[r.id].girado !== null ? money(FLUJO[r.id].girado) : '—'}</p>
+            ${FLUJO[r.id].giroParcial ? `<span class="inline-block mt-2 text-[10px] font-bold text-sky-700 bg-sky-50 border border-sky-200 rounded-full px-2 py-0.5">Giro parcial · únicamente ${FLUJO[r.id].giroParcial}</span>` : ''}
+          </div>
+          <div class="rounded-2xl ${FLUJO[r.id].reint ? 'bg-amber-50 border-amber-200' : 'bg-slate-50 border-slate-100'} border p-4">
+            <p class="text-[9px] uppercase tracking-wider font-extrabold text-slate-400">Reintegro</p>
+            <p class="text-base font-extrabold ${FLUJO[r.id].reint ? 'text-amber-700' : 'text-slate-500'} num mt-1">${reintTxtCorto(FLUJO[r.id])}</p>
+          </div>
+        </div>
+        ${FLUJO[r.id].ejecutadoProy && FLUJO[r.id].girado ? `
+        <div class="mt-4 rounded-2xl border border-sky-200 bg-sky-50/60 p-4">
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <p class="text-[10px] uppercase tracking-wider font-extrabold text-sky-800">Ejecución del recurso girado</p>
+            <p class="text-[11px] text-slate-500">Registrado jul–ago: <b class="num text-slate-800">${money(FLUJO[r.id].ejecutado)}</b> · Septiembre estimado: <b class="num text-slate-800">${money(FLUJO[r.id].ejecutadoSep)}</b></p>
+          </div>
+          <div class="flex items-center justify-between text-[11px] font-bold text-slate-700 mt-3">
+            <span>${pct(FLUJO[r.id].ejecutado, FLUJO[r.id].girado)} del giro (registrado)</span>
+            <span class="text-sky-700">${pct(FLUJO[r.id].ejecutadoProy, FLUJO[r.id].girado)} proyectado con septiembre</span>
+          </div>
+          <div class="h-2.5 rounded-full bg-sky-100 overflow-hidden mt-1.5 relative">
+            <div class="h-full bg-sky-600" style="width:${(FLUJO[r.id].ejecutado / FLUJO[r.id].girado * 100).toFixed(1)}%"></div>
+            <div class="h-full bg-sky-300 absolute top-0" style="left:${(FLUJO[r.id].ejecutado / FLUJO[r.id].girado * 100).toFixed(1)}%;width:${((FLUJO[r.id].ejecutadoProy - FLUJO[r.id].ejecutado) / FLUJO[r.id].girado * 100).toFixed(1)}%"></div>
+          </div>
+          <div class="flex flex-wrap gap-x-5 gap-y-1 mt-2 text-[10.5px] text-slate-600">
+            <span>Total proyectado: <b class="num text-slate-900">${money(FLUJO[r.id].ejecutadoProy)}</b></span>
+            <span>${pct(FLUJO[r.id].ejecutadoProy, 5060723000)} del valor asignado</span>
+            <span>${pct(FLUJO[r.id].ejecutadoProy, 2463745212)} de los contratos</span>
+            <span>Saldo por ejecutar: <b class="num">${money(FLUJO[r.id].girado - FLUJO[r.id].ejecutado)}</b></span>
+          </div>
+        </div>` : ''}
+
+        ${FLUJO[r.id].nota ? `<p class="text-[11px] text-slate-500 mt-3 rounded-xl bg-slate-50 border border-slate-100 px-3 py-2">${FLUJO[r.id].nota}</p>` : ''}
+
+        ${porEstado(r).length > 1 ? `
+        <div class="mt-4 rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
+          <p class="text-[10px] uppercase tracking-wider font-extrabold text-amber-700">Estado de ejecución por municipio</p>
+          <div class="grid md:grid-cols-2 gap-3 mt-3">
+            ${porEstado(r).map(x=>`
+              <div class="rounded-xl bg-white border border-amber-200 p-3">
+                <div class="flex items-center justify-between gap-2">${badge(x.estado)}
+                  <b class="num text-slate-900">${money(x.total)}</b></div>
+                <p class="text-[11px] text-slate-600 mt-2">${Object.keys(x.muns).map(m=>m+' ('+money(x.muns[m])+')').join(' · ')}</p>
+              </div>`).join('')}
+          </div>
+          <p class="text-[11px] text-amber-800 mt-3">En espera de recurso: ${money(porEstado(r).filter(x=>x.estado==='En espera de recurso').reduce((a,x)=>a+x.total,0))} · En ejecución: ${money(porEstado(r).filter(x=>x.estado==='En ejecución').reduce((a,x)=>a+x.total,0))}</p>
+        </div>` : ''}
+      </div>`;
+  }
+}
+
+/* ---------- CSV ---------- */
+document.getElementById('btnCsv').onclick = () => {
+  const sel = seleccion();
+  const head = ['Resolucion','Tipo','Municipio','Tipo de operacion','Equipos','Meses','Recurso asignado','Fecha expedicion','Fecha inicio','Fecha fin','Estado'];
+  let rows = [];
+  sel.forEach(r=>r.filas.forEach(f=>rows.push([`"${r.res.replace(/"/g,'')}"`, r.tipo, f[0], `"${f[1]}"`, f[2], f[3], f[4], r.exp||'', r.inicio||'', r.fin||'', r.estado])));
+  rows.push(['TOTAL','','','','','', SEL_TOTAL(sel),'','','','']);
+  const csv = '\ufeff' + [head, ...rows].map(r=>r.join(';')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+  a.download = 'resoluciones_filtradas.csv'; a.click();
+};
+function SEL_TOTAL(sel){ return sel.reduce((a,r)=>a+r.recFiltrado,0); }
+
+/* ---------- tabla de flujo: giros y reintegros ---------- */
+function renderFlujo(){
+  let tg=0, te=0, ts=0, tr=0;
+  document.getElementById('tblFlujo').innerHTML = RES.map(r=>{
+    const f = FLUJO[r.id];
+    if(f.girado !== null) tg += f.girado;
+    if(f.ejecutado !== null) te += f.ejecutado;
+    if(f.saldo !== null) ts += f.saldo;
+    tr += f.reint || 0;
+    const re = reintCelda(f);
+    return `<tr>
+      <td data-l="Resolución" class="px-5 py-3"><span class="font-semibold text-slate-900">${r.corto}</span>
+        <span class="block text-[11px] text-slate-400">${r.tipo}</span></td>
+      <td data-l="Asignado" class="px-3 py-3 text-right num text-slate-700">${money(r.recurso)}</td>
+      <td data-l="Asignación" class="px-3 py-3 text-center text-xs text-slate-600">${f.asig ? fdate(f.asig) : '—'}</td>
+      <td data-l="Giro" class="px-3 py-3 text-center text-xs text-slate-600">${f.giro ? fdate(f.giro) : '<span class="text-slate-400">—</span>'}</td>
+      <td data-l="Girado" class="px-3 py-3 text-right num text-slate-600">${f.girado !== null ? money(f.girado) + (f.giroParcial ? '<span class="block text-[10px] font-bold text-sky-700">giro parcial · solo ' + f.giroParcial + '</span>' : '') : '—'}</td>
+      <td data-l="Ejecutado" class="px-3 py-3 text-right num text-slate-600">${f.ejecutado !== null ? money(f.ejecutado) : '—'}${f.ejecutadoProy && f.girado ? `<span class="block text-[10px] font-bold text-emerald-700">${pct(f.ejecutado, f.girado)} del giro</span><span class="block text-[10px] text-slate-500">con est. sep ${money(f.ejecutadoProy)} · ${pct(f.ejecutadoProy, f.girado)}</span>` : ''}</td>
+      <td data-l="Saldo" class="px-3 py-3 text-right num text-slate-600">${f.saldo !== null ? money(f.saldo) : '—'}</td>
+      <td data-l="Reintegro" class="px-3 py-3 text-right num">${re}</td>
+      <td data-l="Fecha de CONFIS" class="px-3 py-3 text-center text-xs text-slate-600">${f.confis ? fdate(f.confis) : '—'}${f.acuerdo ? '<span class="block text-[10px] text-slate-500">Acuerdo ' + f.acuerdo + '</span>' : ''}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('footFlujo').innerHTML = `<tr>
+    <td class="px-5 py-4">TOTAL</td>
+    <td data-l="Asignado" class="px-3 py-4 text-right num">${money(TOTAL_GENERAL)}</td>
+    <td colspan="2" class="px-3 py-4"></td>
+    <td data-l="Girado" class="px-3 py-4 text-right num">${money(tg)}</td>
+    <td data-l="Ejecutado" class="px-3 py-4 text-right num">${money(te)}</td>
+    <td data-l="Saldo" class="px-3 py-4 text-right num">${money(ts)}</td>
+    <td data-l="Reintegrado" class="px-3 py-4 text-right num">${money(tr)}</td>
+    <td class="px-3 py-4"></td>
+  </tr>`;
+
+  document.getElementById('chipReint').textContent = 'Reintegrado: ' + money(tr);
+  document.getElementById('notaFlujo').innerHTML =
+    'Fuente: <b>VERIFICACIÓN APP - EBS - JÓVENES EN PAZ - ESPECIALIZADOS - DIFERENCIALES.xlsx</b> ' +
+    '(hojas FR PADILLA, FR PUERTO TEJADA y FR VILLA RICA). La <b>Resolución 1010 de 2025</b> se cuenta como ejecutada ' +
+    'al 100 % del recurso asignado. La <b>436 de 2026</b> no aparece en ese archivo (es anterior a su inicio). ' +
+    'Saldo sin ejecutar total: <b>' + money(ts) + '</b> · reintegrado: <b>' + money(tr) + '</b>. ' +
+    (ts - tr > 0
+      ? 'Quedan <b>' + money(ts - tr) + '</b> por reintegrar.'
+      : 'El saldo sin ejecutar quedó reintegrado en su totalidad ($ 0 pendiente).') +
+    ' Las fechas y resoluciones de reintegro (012, 013, 054 y 062 de 2026) fueron aportadas por la E.S.E. La 436 de 2026 tiene giro parcial: solo Puerto Tejada.';
+}
+
+/* permite abrir una resolución directo: ?res=1499-2024 */
+try{
+  const qp = new URLSearchParams(location.search);
+  const v = qp.get('res');
+  if(v && RES.some(r=>r.id===v)){ state.res = v; fRes.value = v; }
+  const e = qp.get('est');
+  if(e && ['Finalizada','En ejecución','En espera de recurso','CON_REINTEGRO'].includes(e)){
+    state.est = e; document.getElementById('fEst').value = e;
+  }
+}catch(e){}
+
+render();
+renderFlujo();
+</script>
+</body>
+</html>
